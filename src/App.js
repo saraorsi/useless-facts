@@ -1,25 +1,25 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import './style.css';
+import Header from './components/Header';
 
-function App() {
+const App = () => {
+
+  const [facts, setData] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await fetch(`https://uselessfacts.jsph.pl//random.json?language=en`);
+      const response = await data.json();
+      console.log(response);
+      setData(response);
+    }
+    fetchData();
+  }, []);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Header />
+      <div className="facts">{facts.text}</div>
+      <div className="source">– {facts.source}</div>
+    </>
   );
 }
 
